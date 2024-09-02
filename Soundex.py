@@ -9,7 +9,7 @@ def get_soundex_code(c):
         'R': 6
     }
     return mapping.get(c, 0)
-
+    
 def generate_soundex(name):
     name = name.upper()
 
@@ -20,11 +20,13 @@ def generate_soundex(name):
     soundex = [name[0]]
     prev_code = get_soundex_code(name[0])
 
-    for c in name[1:]:
-        code = get_soundex_code(c)
+    i = 1
+    while i < len(name):
+        code = get_soundex_code(name[i])
         if code != prev_code and code != 0:
             soundex.append(code)
             prev_code = code
+        i += 1
 
     # Return soundex code padded to 4 characters
     return "".join(str(code) for code in soundex).ljust(4, "0")
