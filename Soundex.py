@@ -9,23 +9,22 @@ def get_soundex_code(c):
         'R': 6
     }
     return mapping.get(c, 0)
-    
-def generate_soundex(name):
-    name = name.upper()
 
+def generate_soundex(name):
+    # Handle empty name upfront
     if not name:
         return "0000"
-
-    # Create the soundex code from the name
+    
+    # Prepare the initial soundex list with the first character
+    name = name.upper()
     soundex = [name[0]]
 
-    soundex.extend(
-        get_soundex_code(c)
-        for c in name[1:]
-    )
+    # Create a list of soundex codes, directly filtering out consecutive duplicates
+    codes = list(map(get_soundex_code, name[1:]))
+    filtered_codes = [code for i, code in enumerate(codes) if code != 0 and (i == 0 or code != codes[i - 1])]
 
-    # Remove consecutive duplicates
-    soundex = [soundex[i] for i in range(len(soundex)) if i == 0 or soundex[i] != soundex[i-1]]
+    # Combine the first letter and the filtered codes
+    soundex.extend(filtered_codes)
 
-    # Return soundex code padded to 4 characters
+    # Return the first four characters, padded if necessary
     return "".join(str(code) for code in soundex[:4]).ljust(4, "0")
