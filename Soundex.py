@@ -1,3 +1,5 @@
+from itertools import groupby
+
 def get_soundex_code(c):
     c = c.upper()
     mapping = {
@@ -11,20 +13,24 @@ def get_soundex_code(c):
     return mapping.get(c, 0)
 
 def generate_soundex(name):
-    # Handle empty name upfront
+    # Return "0000" for empty input (single decision point)
     if not name:
         return "0000"
-    
-    # Prepare the initial soundex list with the first character
+
+    # Convert the name to uppercase and map to soundex codes
     name = name.upper()
-    soundex = [name[0]]
+    first_letter = name[0]
 
-    # Create a list of soundex codes, directly filtering out consecutive duplicates
-    codes = list(map(get_soundex_code, name[1:]))
-    filtered_codes = [code for i, code in enumerate(codes) if code != 0 and (i == 0 or code != codes[i - 1])]
+    # Generate soundex codes for the rest of the name
+    codes = map(get_soundex_code, name[1:])
 
-    # Combine the first letter and the filtered codes
-    soundex.extend(filtered_codes)
+    # Remove consecutive duplicates using groupby, and filter out '0's
+    filtered_codes = [key for key, _ in groupby(codes) if key != 0]
+
+    # Combine the first letter with the filtered codes
+    soundex = [first_letter] + filtered_codes
 
     # Return the first four characters, padded if necessary
-    return "".join(str(code) for code in soundex[:4]).ljust(4, "0")
+    return ''.join(str(code) for code in soundex[:4]).ljust(4, '0')
+
+
