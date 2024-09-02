@@ -8,20 +8,21 @@ def get_soundex_code(c):
         'M': '5', 'N': '5',
         'R': '6'
     }
-    return mapping.get(c, '0')  # Default to '0' for non-mapped characters
+    return mapping.get(c, '0')
 
 def generate_soundex(name):
     name = name.upper()
     
-    # Create a list of soundex codes, removing duplicates and '0' values
-    codes = [get_soundex_code(c) for c in name]
-    unique_codes = [code for code in codes if code != '0']
+    if not name:
+        return "0000"
 
-    # Initialize soundex with the first letter
-    soundex = [name[0].upper()]
+    # Create the soundex code from the name
+    codes = [get_soundex_code(c) for c in name]
     
-    # Add unique codes, avoiding consecutive duplicates
-    soundex.extend(code for code in unique_codes[1:] if code != soundex[-1])
+    # Start with the first letter and filter subsequent codes
+    soundex = [name[0]]
+    prev_code = get_soundex_code(name[0])
+    soundex.extend(code for code in codes[1:] if code != prev_code and code != '0')
     
-    # Ensure the final soundex code is 4 characters long
+    # Return soundex code padded to 4 characters
     return ''.join(soundex)[:4].ljust(4, '0')
