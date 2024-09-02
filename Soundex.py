@@ -13,24 +13,10 @@ def get_soundex_code(c):
     return mapping.get(c, 0)
 
 def generate_soundex(name):
-    # Return "0000" for empty input (single decision point)
-    if not name:
-        return "0000"
-
-    # Convert the name to uppercase and map to soundex codes
-    name = name.upper()
-    first_letter = name[0]
-
-    # Generate soundex codes for the rest of the name
-    codes = map(get_soundex_code, name[1:])
-
-    # Remove consecutive duplicates using groupby, and filter out '0's
-    filtered_codes = [key for key, _ in groupby(codes) if key != 0]
-
-    # Combine the first letter with the filtered codes
-    soundex = [first_letter] + filtered_codes
-
-    # Return the first four characters, padded if necessary
-    return ''.join(str(code) for code in soundex[:4]).ljust(4, '0')
-
-
+    # Return "0000" for empty input
+    return "0000" if not name else ''.join(
+        [name[0].upper()] +  # Start with the first letter in uppercase
+        list(filter(lambda x: x != '0', map(str, [
+            key for key, _ in groupby(map(get_soundex_code, name[1:].upper()))
+        ])))  # Apply Soundex coding, remove duplicates, and filter out '0'
+    )[:4].ljust(4, '0')
