@@ -18,15 +18,14 @@ def generate_soundex(name):
 
     # Create the soundex code from the name
     soundex = [name[0]]
-    prev_code = get_soundex_code(name[0])
 
-    i = 1
-    while i < len(name):
-        code = get_soundex_code(name[i])
-        if code != prev_code and code != 0:
-            soundex.append(code)
-            prev_code = code
-        i += 1
+    soundex.extend(
+        get_soundex_code(c)
+        for c in name[1:]
+    )
+
+    # Remove consecutive duplicates
+    soundex = [soundex[i] for i in range(len(soundex)) if i == 0 or soundex[i] != soundex[i-1]]
 
     # Return soundex code padded to 4 characters
-    return "".join(str(code) for code in soundex).ljust(4, "0")
+    return "".join(str(code) for code in soundex[:4]).ljust(4, "0")
