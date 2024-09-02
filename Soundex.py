@@ -18,5 +18,5 @@ def generate_soundex(name):
         [name[0].upper()] +  # Start with the first letter in uppercase
         list(filter(lambda x: x != '0', map(str, [
             key for key, _ in groupby(map(get_soundex_code, name[1:].upper()))
-        ])))  # Apply Soundex coding, remove duplicates, and filter out '0'
+        ])))   # Apply Soundex coding, remove duplicates, and filter out '0'
     )[:4].ljust(4, '0')
