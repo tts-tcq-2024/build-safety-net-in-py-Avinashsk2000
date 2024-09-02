@@ -17,14 +17,7 @@ def generate_soundex(name):
         return '0000'
  
     # Create the soundex code from the name
-    soundex = [name[0]]
-    prev_code = get_soundex_code(name[0])
-    
-    for c in name[1:]:
-        code = get_soundex_code(c)
-        if code != prev_code and code != 0:
-            soundex.append(code)
-            prev_code = code
+    soundex = [name[0]] + [get_soundex_code(c) for c in name[1:] if get_soundex_code(c) != get_soundex_code(name[name.index(c) - 1])]
     
     # Return soundex code padded to 4 characters
     return ''.join(soundex)[:4].ljust(4, '0')
