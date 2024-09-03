@@ -47,7 +47,7 @@ class TestSoundexEdgeCases(unittest.TestCase):
         self.assertEqual(generate_soundex("avina2"), "A150")
 
     def test_all_same_consonant_name(self):
-        self.assertEqual(generate_soundex("Shashank"), "S522")
+        self.assertEqual(generate_soundex("Shashank"), "S252")
 
     def test_name_with_hyphens(self):
         self.assertEqual(generate_soundex("Hari-Prasad"), "H616")
