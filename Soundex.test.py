@@ -25,7 +25,7 @@ class TestSoundex(unittest.TestCase):
 
     def test_trimming_to_four_digits(self):
         """Test that the output is trimmed to four digits."""
-        self.assertEqual(generate_soundex("Shivakumar"), "S152")
+        self.assertEqual(generate_soundex("Shivakumar"), "S125")
 
     def test_non_alphabetic_characters(self):
         """Test that non-alphabetic characters are ignored."""
