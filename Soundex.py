@@ -13,15 +13,17 @@ def get_soundex_code(c):
     return mapping.get(c, 0)
 
 def generate_soundex(name):
-    # Use a one-liner to handle empty input and generate Soundex
-    return (
-        "0000" if not name else (
-            (name[0].upper() +  # Start with the first letter
-             ''.join(
-                 str(code) for code, _ in groupby(
-                     filter(lambda x: x != 0, map(get_soundex_code, filter(str.isalpha, name[1:])))
-                 )
-             )
-            )[:4].ljust(4, '0')
+    if not name:
+        return "0000"
+
+    # Lambda function for filtering and mapping soundex codes
+    filter_and_map = lambda name: (
+        str(code) for code, _ in groupby(
+            filter(lambda x: x != 0, map(get_soundex_code, filter(str.isalpha, name)))
         )
     )
+
+    # Generate soundex code
+    return (
+        name[0].upper() + ''.join(filter_and_map(name[1:]))
+    )[:4].ljust(4, '0')
