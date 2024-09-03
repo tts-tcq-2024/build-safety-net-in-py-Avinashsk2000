@@ -12,18 +12,29 @@ def get_soundex_code(c):
     }
     return mapping.get(c, 0)
 
+def filter_non_alpha(char):
+    """Filter out non-alphabetic characters."""
+    return char.isalpha()
+
+def map_to_soundex_code(char):
+    """Map a character to its Soundex code."""
+    return get_soundex_code(char)
+
+def remove_consecutive_duplicates(codes):
+    """Remove consecutive duplicate Soundex codes."""
+    return [key for key, _ in groupby(codes)]
+
 def generate_soundex(name):
     if not name:
         return "0000"
 
-    # Lambda function for filtering and mapping soundex codes
-    filter_and_map = lambda name: (
-        str(code) for code, _ in groupby(
-            filter(lambda x: x != 0, map(get_soundex_code, filter(str.isalpha, name)))
-        )
-    )
+    # Apply the processing steps
+    filtered_name = filter(filter_non_alpha, name[1:])
+    mapped_codes = map(map_to_soundex_code, filtered_name)
+    filtered_codes = filter(lambda x: x != 0, mapped_codes)
+    unique_codes = remove_consecutive_duplicates(filtered_codes)
 
-    # Generate soundex code
+    # Build the final Soundex code
     return (
-        name[0].upper() + ''.join(filter_and_map(name[1:]))
+        name[0].upper() + ''.join(map(str, unique_codes))
     )[:4].ljust(4, '0')
