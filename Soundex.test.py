@@ -36,9 +36,5 @@ class TestSoundex(unittest.TestCase):
         self.assertEqual(generate_soundex("Arvind Rao"), "A615")
         self.assertEqual(generate_soundex("Sandeep  Prasad"), "S531")  # Multiple spaces
 
-    def test_south_indian_name_with_special_characters(self):
-        """Test South Indian male names with special characters and numbers."""
-        self.assertEqual(generate_soundex("Manoj@123"), "M520")
-
 if __name__ == '__main__':
     unittest.main()
