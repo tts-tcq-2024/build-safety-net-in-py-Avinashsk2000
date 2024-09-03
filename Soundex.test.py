@@ -13,7 +13,7 @@ class TestSoundex(unittest.TestCase):
 
     def test_basic_name(self):
         """Test a basic South Indian male name with no repeated or adjacent codes."""
-        self.assertEqual(generate_soundex("Raghav"), "R020")
+        self.assertEqual(generate_soundex("Raghav"), "R210")
 
     def test_case_insensitivity(self):
         """Test that the function is case-insensitive."""
@@ -29,11 +29,11 @@ class TestSoundex(unittest.TestCase):
 
     def test_non_alphabetic_characters(self):
         """Test that non-alphabetic characters are ignored."""
-        self.assertEqual(generate_soundex("Ravi@#$"), "R130")
+        self.assertEqual(generate_soundex("Ravi@#$"), "R100")
 
     def test_names_with_spaces(self):
         """Test South Indian male names with spaces."""
-        self.assertEqual(generate_soundex("Arvind Rao"), "A653")
+        self.assertEqual(generate_soundex("Arvind Rao"), "A615")
         self.assertEqual(generate_soundex("Sandeep  Prasad"), "S531")  # Multiple spaces
 
     def test_south_indian_name_with_special_characters(self):
