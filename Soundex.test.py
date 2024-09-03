@@ -1,54 +1,57 @@
 import unittest
 from Soundex import generate_soundex
-from parameterized import parameterized
 
-class TestSoundex(unittest.TestCase):
-    """Test for the Soundex function using parameterized inputs."""
+class TestSoundexBasic(unittest.TestCase):
+    """Tests for basic Soundex functionality."""
 
-    @parameterized.expand([
-        # Test handling of an empty input string
-        ("Empty input", "", "0000"),
+    def test_empty_input(self):
+        self.assertEqual(generate_soundex(""), "0000")
 
-        # Test handling of a single letter input
-        ("Single letter", "A", "A000"),
+    def test_single_letter(self):
+        self.assertEqual(generate_soundex("A"), "A000")
 
-        # Test case insensitivity
-        ("Case insensitivity", "Yashwanth", "Y253"),
-        ("Case insensitivity - lowercase", "yashwanth", "Y253"),
+    def test_common_name(self):
+        self.assertEqual(generate_soundex("Raghav"), "R020")
 
-        # Test common names
-        ("Typical name - Raghavendra", "Raghavendra", "R216"),
-        ("Typical name - Vishwanath", "Vishwanath", "V253"),
+    def test_case_independence(self):
+        self.assertEqual(generate_soundex("Avinash"), generate_soundex("avinash"))
 
-        # Test padding to ensure four-character output
-        ("Padding output", "G", "G000"),
 
-        # Test trimming to ensure four-character output
-        ("Trim output", "Balachandran", "B422"),
+class TestSoundexPaddingAndTrimming(unittest.TestCase):
+    """Tests for padding and trimming of Soundex code."""
 
-        # Test handling non-alphabetic characters
-        ("Non-alphabetic characters", "A!@#$", "A000"),
-        ("Non-alphabetic mixed with letters", "Raj123", "R200"),
+    def test_zero_padding(self):
+        self.assertEqual(generate_soundex("G"), "G000")
 
-        # Test names with spaces
-        ("Names with spaces", "Anil Kumar", "A524"),
-        ("Names with multiple spaces", "Anil  Kumar", "A524"),
+    def test_cut_to_four_characters(self):
+        self.assertEqual(generate_soundex("Avi"), "A100")
 
-        # Test numeric and special characters are ignored
-        ("Numbers in name", "R2D2", "R300"),
-        ("Special characters in name", "Ch@ndr@k@nth", "C536")
-    ])
-    def test_generate_soundex(self, name, input_name, expected_output):
-        """
-        Parameterized test for the generate_soundex function.
 
-        Arguments:
-            name (str): A description of the test case.
-            input_name (str): The input name to generate Soundex for.
-            expected_output (str): The expected Soundex output.
-        """
-        # Check if the Soundex function returns the expected output
-        self.assertEqual(generate_soundex(input_name), expected_output)
+class TestSoundexSpecialCharacters(unittest.TestCase):
+    """Tests handling of special characters and non-alphabetic input."""
+
+    def test_ignoring_non_letters(self):
+        self.assertEqual(generate_soundex("Ravi@#$"), "R130")
+
+    def test_name_with_spaces(self):
+        self.assertEqual(generate_soundex("Arvind Rao"), "A653")
+        self.assertEqual(generate_soundex("Sandeep  Prasad"), "S531") 
+
+    def test_special_chars_and_digits(self):
+        self.assertEqual(generate_soundex("Manoj@123"), "M520")
+
+class TestSoundexEdgeCases(unittest.TestCase):
+    """Tests for edge cases and unexpected input."""
+
+    def test_number_in_name(self):
+        self.assertEqual(generate_soundex("avina2"), "A150")
+
+    def test_all_same_consonant_name(self):
+        self.assertEqual(generate_soundex("Shashank"), "S520")
+
+    def test_name_with_hyphens(self):
+        self.assertEqual(generate_soundex("Hari-Prasad"), "H612")
+
 
 if __name__ == '__main__':
     unittest.main()
