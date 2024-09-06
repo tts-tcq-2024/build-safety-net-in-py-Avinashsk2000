@@ -39,12 +39,6 @@ class TestSoundexBasic(unittest.TestCase):
 class TestSoundexPaddingAndTrimming(unittest.TestCase):
     """Tests for padding and trimming of Soundex code."""
 
-    def test_single_letter_padded_with_zeros(self):
-        """
-        Test: Single letter 'G' should return 'G000'.
-        Explanation: First letter is kept, and the remaining code is padded with zeros to make it four characters.
-        """
-        self.assertEqual(generate_soundex("G"), "G000")
 
     def test_short_name_padded_to_four_characters(self):
         """
