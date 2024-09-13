@@ -1,0 +1,29 @@
+,,,,,
+Test Scenario,Test Case ID,Test case name,Test description,Test Input,Expected Output
+Basic Soundex Functionality,TC001,test_empty_string_returns_0000,"Test: Empty input returns '0000'
+
+Comments: Ensures that the function handles an empty string correctly.","""""","""0000"""
+,TC002,test_single_letter_returns_letter_and_zeros,"Test: Single letter input returns letter + 3 zeros
+Comments:Tests padding for single-letter input.","""A""","""A000"""
+,TC003,test_common_name_raghav_returns_r210,"Test: Common name 'Raghav' returns 'R210'
+Comments: Ensures correct consonant and vowel mapping.","""Raghav""","""R210"""
+Case Insensitivity,TC004,test_case_independence_returns_same_code,"Test: Case-insensitive comparison
+Comments: Confirms that Soundex is case-insensitive.","""Avinash"", ""avinash""",Same code
+Handling Special Characters,TC005,test_special_characters_ignored_in_name,"Test: Special characters are ignored in Soundex
+Comments:Special characters are ignored.","""Ravi@#$""","""R100"""
+,TC006,test_spaces_ignored_in_multi_word_name,"Test: Spaces are ignored in multi-word names
+Comments:Spaces are ignored in Soundex code.","""Arvind Rao""","""A615"""
+,TC007,test_spaces_ignored_in_multi_word_name,"Test: Spaces are ignored in multi-word names
+Comments:Confirms correct handling of multi-word names.","""Sandeep Prasad""","""S531"""
+,TC008,test_special_characters_and_digits_ignored,"Test: Special characters and digits are ignored
+Comments:Ensures digits and special characters are ignored.","""Manoj@123""","""M520"""
+Padding and Trimming,TC009,test_short_name_padded_to_four_characters,"Test: Short name 'Avi' returns 'A100'
+Comments:Tests padding to 4 characters for short names.","""Avi""","""A100"""
+Handling Repeated Consonants,TC011,test_name_with_repeated_consonants,"Test: Name with all same consonants 'Shashank'
+Comments:Ensures handling of repeated consonants.","""Shashank""","""S252"""
+Handling Hyphens,TC012,test_name_with_hyphens_ignored,"Test: Hyphens are ignored in names
+Comments:Hyphens are ignored in Soundex code.","""Hari-Prasad""","""H616"""
+Handling Mixed Characters,TC013,test_numbers_in_name_are_ignored,"Test: Numbers are ignored in name
+Comments:Tests that numbers are ignored when generating Soundex.","""avina2""","""A150"""
+Case Insensitivity with Special Characters,TC014,test_case_independence_returns_same_code,"Test: Case-insensitive with special characters
+Comments:Confirms case insensitivity and ignores special characters.","""Avinash@#$"", ""avinash@#$""",Same code
